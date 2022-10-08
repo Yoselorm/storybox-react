@@ -1,0 +1,254 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* #stories {
+    color: blueviolet;
+} */
+
+.navb {
+    background-color: teal;
+    border-radius: 5px 5px 0px 0px;
+
+}
+
+
+.nav-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+
+.debtn {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0.5rem 0rem;
+}
+
+
+
+.homebtn-share {
+    margin: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.homebtn:hover {
+    color: red;
+}
+
+.homebtn {
+    font-weight: bold;
+    border: none;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.arrow {
+    font-size: 30px;
+    margin-top: 10px;
+    color: white;
+    border: 1px solid white;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.arrow:hover {
+    color: black;
+    background-color: white;
+}
+
+.pen {
+    font-size: 40px;
+}
+
+.provider-btn {
+    border: none;
+    background-color: transparent;
+    margin-right: 4px;
+}
+
+.provider-btn:hover {
+    background-color: lightblue;
+}
+
+.Pen-btn {
+    border: none;
+    background-color: transparent;
+    padding: 5px;
+    margin: 10px;
+}
+
+.Pen-btn:hover {
+    color: white;
+}
+
+.back-btn {
+    border: none;
+    background-color: transparent;
+
+}
+
+.addstory-card {
+    margin: 20px;
+}
+
+.modal-content {
+    width: fit-content !important;
+}
+
+.editbtn:hover {
+    background-color: lightslategrey;
+}
+
+.delbtn:hover {
+    background-color: lightslategrey !important;
+}
+
+img {
+    width: 60px;
+}
+
+
+
+.img {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.h5 {
+    position: absolute;
+    top: 20px;
+}
+
+.homecard {
+    height: 70vh;
+    overflow-y: auto;
+    width: 45rem;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+
+}
+
+.decard {
+    height: 20vh;
+    margin: auto;
+}
+
+
+
+/* html {
+    background-image: url("main.jpg");
+    background-blend-mode: overlay;
+    background-color: rgb(127, 142, 139);
+    background-size: cover;
+    background-attachment: fixed;
+
+}
+
+
+body {
+    margin: 2rem 18rem;
+    padding-bottom: 4rem;
+border-radius: 5px;
+background-color: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(30px);
+height: 100%;
+width: 100%;
+} */
+
+
+.App {
+    background-image: url("main.jpg");
+    background-blend-mode: overlay;
+    background-color: rgb(127, 142, 139);
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.login-form {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+    border-radius: 5px;
+}
+
+.btn-share {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.App-header {
+    background-color: white;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(30px);
+}
+
+.signup-btn:hover {
+    font-weight: bold;
+    color: blue;
+}
+
+.signup-btn {
+    border: none;
+    font-weight: bold;
+    color: teal;
+    cursor: pointer;
+    background-color: white;
+}
+
+.login-btn {
+    border: none;
+    background-color: white;
+    font-weight: bold;
+    color: teal;
+}
+
+.login-btn:hover {
+    color: blue;
+}
+
+
+.close {
+    margin: auto !important;
+    margin-bottom: 5px !important;
+    width: 5em !important;
+    background-color: teal !important;
+    border: none !important;
+
+}
+
+.edit-modal {
+    margin-top: 5rem;
+    margin-left: -5rem;
+}
+
+.editmodal {
+    margin-top: 5rem;
+    margin-left: 5rem;
+}
+
+.modalbody {
+    padding: 2rem 4rem !important;
+}
+
+.modalbutton {
+    margin: auto !important;
+    margin-bottom: 5px !important;
+    background-color: teal !important;
+    border: none !important;
+    padding: 30px;
+}
