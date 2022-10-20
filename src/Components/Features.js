@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import Edit from './Edit';
-import Read from '../Pages/Read'
+
 
 
 
@@ -15,6 +15,7 @@ const Features = (props) => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
 
     const dispatch = useDispatch();
 
@@ -27,8 +28,9 @@ const Features = (props) => {
         <div >
             <Container >
                 <br />
-                <Card className='decard' style={{ width: '40rem' }}>
+                <Card className='decard' style={{ width: '13rem' }}>
                     <Card.Body>
+                        <img src={props.user.image} className='image' />
                         <h4>{props.user.title}</h4>
                         <span>Written by: {props.user.name}</span>
                         <div className='debtn'>
@@ -38,9 +40,9 @@ const Features = (props) => {
                 </Card>
             </Container>
             <Modal show={show} onHide={handleClose} backdrop="static"
-                keyboard={false} className='edit- modal'>
-                <h3>{props.user.title}</h3>
-                <Modal.Body style={{ width: '38rem', margin: '2rem' }}>
+                keyboard={false} className='edit-modal'>
+                <h3 style={{ padding: '10px', textAlign: 'center', fontWeight: 'bold' }}>{props.user.title}</h3>
+                <Modal.Body style={{ width: '55rem', margin: '20px' }}>
                     {props.user.body}
                 </Modal.Body>
                 <Button className='close' onClick={handleClose}>

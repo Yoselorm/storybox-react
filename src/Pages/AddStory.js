@@ -4,7 +4,7 @@ import StoryForm from '../Components/StoryForm';
 
 const Stories = () => {
     return (
-        <div>
+        <div className='storycard'>
             <StoryForm />
         </div>
     );

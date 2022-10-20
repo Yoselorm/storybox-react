@@ -64,6 +64,7 @@ const Home = (props) => {
     return (
         <div className='whole-homecard'>
             <div className='homebtn-share'>
+                <p className='txt'>The StoryBox📝</p>
                 <button className='homebtn' onClick={handleSignOut}>Sign Out</button>
             </div>
             <div className='homecard'>

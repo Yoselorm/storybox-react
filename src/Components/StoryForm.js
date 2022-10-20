@@ -2,56 +2,119 @@ import { v4 as uuidv4 } from 'uuid';
 import React, { useState } from 'react';
 import { Form, Button, Card, Container, Modal } from 'react-bootstrap';
 import { useDispatch, connect } from 'react-redux';
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, updateDoc } from "firebase/firestore";
 import app from '../Firebase/Config';
 import { doc, setDoc } from "firebase/firestore";
 import { LinkContainer } from 'react-router-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { async } from '@firebase/util';
 
 const Stories = (props) => {
-    console.log(props)
+
     const [name, setName] = useState('');
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
-    const [file, setFile] = useState()
+    const [file, setFile] = useState([]);
     const [show, setShow] = useState(false);
+    const [loadshow, setLoadshow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const db = getFirestore(app);
     const navigate = useNavigate();
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const newStory = {
-            name: name,
-            title: title,
-            body: body,
-            file: file,
-            id: uuidv4()
-        }
-        setName('')
-        setBody('')
-        setTitle('')
-        setShow(true)
-        try {
-            await setDoc(doc(db, "UserStory", newStory.id), newStory);
-        } catch (error) {
-            console.log(error)
-        }
+        const storage = getStorage();
+        const metadata = {
+            contentType: 'image'
+        };
+
+        // Upload file and metadata to the object 'images/mountains.jpg'
+        const storageRef = ref(storage, 'images/' + file.name);
+        const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+
+        // Listen for state changes, errors, and completion of the upload.
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+                switch (snapshot.state) {
+                    case 'paused':
+                        console.log('Upload is paused');
+                        break;
+                    case 'running':
+                        console.log('Upload is running');
+                        break;
+                }
+                if (progress != 100) {
+                    setLoadshow(true)
+                }
+                else {
+                    setLoadshow(false)
+                }
+            },
+            (error) => {
+                // A full list of error codes is available at
+                // https://firebase.google.com/docs/storage/web/handle-errors
+                switch (error.code) {
+                    case 'storage/unauthorized':
+                        // User doesn't have permission to access the object
+                        break;
+                    case 'storage/canceled':
+                        // User canceled the upload
+                        break;
+
+                    // ...
+
+                    case 'storage/unknown':
+                        // Unknown error occurred, inspect error.serverResponse
+                        break;
+                }
+            },
+            () => {
+                // Upload completed successfully, now we can get the download URL
+                getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+                    console.log('File available at', downloadURL);
+                    const newStory = {
+                        name: name,
+                        title: title,
+                        body: body,
+                        id: uuidv4(),
+                        image: downloadURL
+                    }
+                    try {
+                        await setDoc(doc(db, "UserStory", newStory.id), newStory);
+                    } catch (error) {
+                        console.log(error)
+                    }
+                    setLoadshow(false)
+                    setName('')
+                    setBody('')
+                    setTitle('')
+                    setShow(true)
+
+                });
+
+            }
+        );
+
     }
     const backtohome = (e) => {
         e.preventDefault();
         navigate('/home')
     }
-    const handleImage = (e) => {
-        e.preventDefault();
-        const selected = e.target.files[0];
-        setFile(selected)
-        console.log(selected)
-    }
+    // const handleImage = (e) => {
+    //     e.preventDefault();
+    //     const selected = e.target.files[0];
+    //     setFile(selected)
+    //     console.log(selected)
+    // }
 
     return (
         <div>
@@ -73,7 +136,8 @@ const Stories = (props) => {
                                     <Form.Control as="textarea" rows={10} value={body} onChange={(e) => { setBody(e.target.value) }} placeholder='Body' />
                                 </Form.Group>
                             </Form.Group>
-                            <input type='file' value={file} onChange={handleImage} />
+                            <input type='file' onChange={(e) => { setFile(e.target.files[0]) }} />
+                            <p>Add a thumbnail</p>
                             <Button variant="primary" type="submit">
                                 Submit
                             </Button>
@@ -92,6 +156,19 @@ const Stories = (props) => {
                             OK
                         </Button>
                     </LinkContainer>
+
+                </Modal.Footer>
+            </Modal>
+            <Modal show={loadshow} onHide={handleClose} backdrop="static"
+                keyboard={false} className='editmodal'>
+
+                <Modal.Body className='modalbody'>loading...</Modal.Body>
+                <Modal.Footer>
+                    {/* <LinkContainer to={'/'}>
+                        <Button className='modalbutton' variant="primary" onClick={handleClose}>
+                            OK
+                        </Button>
+                    </LinkContainer> */}
 
                 </Modal.Footer>
             </Modal>

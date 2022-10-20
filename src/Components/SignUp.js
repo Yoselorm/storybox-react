@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Anchor, Modal, Alert } from 'react-bootstrap';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+
 
     const auth = getAuth();
     const navigate = useNavigate();
@@ -18,6 +21,7 @@ const SignUp = () => {
                 const user = userCredential.user;
                 // ...
                 navigate('/home', { replace: true })
+                setShow(true)
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -45,6 +49,27 @@ const SignUp = () => {
                     Sign Up
                 </Button>
             </Form>
+            <Modal show={show} onHide={handleClose} backdrop="static"
+                keyboard={false} className='editmodal'>
+
+                <Modal.Body className='modalbody'>
+                    {[
+                        'danger',
+
+                    ].map((variant) => (
+                        <Alert key={variant} variant={variant}>
+                            Sign Up Successful
+                        </Alert>))}
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button className='modalbutton' variant="danger" onClick={handleClose}>
+                        OK
+                    </Button>
+
+
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 }
